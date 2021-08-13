@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import user from "@testing-library/user-event";
 
 import Counter from "./Counter";
@@ -23,8 +23,10 @@ describe("Counter Component", () => {
         user.click(screen.getByRole("button", { name: "increment" }));
       });
 
-      it("renders Current Count: 15", () => {
-        expect(screen.getByText("Current Count: 15")).toBeInTheDocument();
+      it("renders Current Count: 15", async () => {
+        await waitFor(() =>
+          expect(screen.getByText("Current Count: 15")).toBeInTheDocument()
+        );
       });
     });
 
@@ -84,8 +86,10 @@ describe("Counter Component", () => {
         user.click(screen.getByRole("button", { name: "increment" }));
       });
 
-      it("renders Current Count: 1", () => {
-        expect(screen.getByText("Current Count: 1")).toBeInTheDocument();
+      it("renders Current Count: 1", async () => {
+        await waitFor(() =>
+          expect(screen.getByText("Current Count: 1")).toBeInTheDocument()
+        );
       });
     });
 

@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect, useRef } from "react";
 
 type CounterProps = {
   description: string;
@@ -9,17 +9,28 @@ const Counter = ({ defaultCounter, description }: CounterProps) => {
   const [count, setCount] = useState(defaultCounter);
   const [incrementor, setIncrementor] = useState(1);
 
+  const active = useRef(true);
+
   function handleCountDecrease() {
     setCount((prevCount) => prevCount - incrementor);
   }
 
   function handleCountIncrease() {
-    setCount((prevCount) => prevCount + incrementor);
+    setTimeout(
+      () => active.current && setCount((prevCount) => prevCount + incrementor),
+      200
+    );
   }
 
   function handleIncrementorChange(event: ChangeEvent<HTMLInputElement>) {
     setIncrementor(Number(event.target.value) || 0);
   }
+
+  useEffect(() => {
+    return () => {
+      active.current = false;
+    };
+  }, []);
 
   return (
     <div>
